@@ -6,13 +6,15 @@ var fs = require('fs');
 var list = [];
 var getDataFun = function (item, callback) {
     var resBody = '';
+    
     var url = 'https://c0.3.cn/stock?skuId='+ item[0] +'&cat=1320,1584,2677&venderId=1000135221&area=1_2800_2848_0&buyNum=1&choseSuitSkuIds=&extraParam={%22originid%22:%221%22}&ch=1&fqsp=0&pduid=1637105155&pdpin=';
     var options = {
         url: url
     }
     request.get(options, function (err, response, body) {
         resBody = JSON.parse(response.body);
-        item.push(resBody.stock.jdPrice.p);
+        console.log(resBody);
+        // item.push(resBody.stock.jdPrice.p);
         callback(item);
     });
 
@@ -88,7 +90,7 @@ router.get('/test',function(req,res,next){
 
 router.get('/data',function(req, res, next){
     var resBody = '';
-    var url = 'http://cd.jd.com/promotion/v2?skuId='+ req.query.id +'&area=1_72_2799_0&shopId=1000113721&venderId=1000113721&cat=1320%2C1584%2C2677&isCanUseDQ=1&isCanUseJQ=1&platform=0&orgType=2&jdPrice='+req.query.pr;
+    var url = 'https://item-soa.jd.com/getWareBusiness?skuId='+ req.query.id +'&area=1_72_2799_0&shopId=1000113721&venderId=1000113721&cat=1320%2C1584%2C2677&isCanUseDQ=1&isCanUseJQ=1&platform=0&orgType=2&jdPrice='+req.query.pr;
     var options = {
         url: url
     }
