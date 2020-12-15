@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+
+<body>
+    <div class="layui-form">
+        <h1><%=resBody.length -1%></h1>
+        <table class="layui-table table-list">
+            <colgroup>
+                <col width="150">
+                <col width="200">
+                <col width="150">
+                <col width="150">
+                <col width="100">
+                <col width="100">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th><%= resBody[0][0] %></th>
+                    <th><%= resBody[0][1] %></th>
+                    <th><%= resBody[0][2] %></th>
+                    <th><%= resBody[0][3] %></th>
+                    <!-- <th><%= resBody[0][4] %></th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i = 1; i < resBody.length; i++) { %>
+                <tr sid="<%= resBody[i][0] %>" index="<%=i%>">
+                    <td><a href="https://item.jd.com/<%= resBody[i][0] %>.html" target="_brand"><%= resBody[i][0] %></a>
+                    </td>
+                    <td><%= resBody[i][1] %></td>
+                    <td><%= resBody[i][2] %></td>
+                    <td><%= resBody[i][3] %></td>
+                    <!-- <td>
+                        <div>
+
+                        </div>
+                        <button sid="<%= resBody[i][0] %>" pr="<%= resBody[i][3] %>" class="getBtn">获取满减&满额</button>
+                    </td> -->
+                </tr>
+                <% } %>
+
+            </tbody>
+        </table>
+    </div>
+    <script src="../layui/layui.js"></script>
+    <script>
+        layui.use(['jquery', 'layer'], function () {
+            var $ = layui.$ //重点处
+                , layer = layui.layer;
+        // var url = 'https://cd.jd.com/promotion/v2?skuId=1225982&area=1_72_2799_0&shopId=1000137288&venderId=1000137288&cat=1320%2C1584%2C2677&isCanUseDQ=1&isCanUseJQ=1&platform=0&orgType=2&jdPrice=14.60&appid=1&_=1561648323933';
+        var url = 'https://cd.jd.com/promotion/v2?skuId=1225982&area=1_72_2799_0&shopId=1000137288&venderId=1000137288&cat=1320%2C1584%2C2677&isCanUseDQ=1&isCanUseJQ=1&platform=0&orgType=2&jdPrice=14.60&appid=1&_=1561648323933';
+        function jQuery8169457(data){
+            console.log(data);
+        }
+        $.ajax({
+            url:url,
+            type : "get",
+            async:false,   
+            dataType: "JSONP",
+            contentType: "application/x-www-form-urlencoded; charset=utf-8",
+            jsonp: "callback",
+            succsss: function (params) {
+                console.log(params);
+            }
+        })
+        $('.table-list tbody tr button.getBtn').on('click',function(){
+            var _this = $(this);
+            var sid = $(this).attr('sid');
+            var pr = $(this).attr('pr');
+            var url = 'http://cd.jd.com/promotion/v2?skuId='+ sid +'&area=1_72_2799_0&shopId=1000113721&venderId=1000113721&cat=1320%2C1584%2C2677&isCanUseDQ=1&isCanUseJQ=1&platform=0&orgType=2';
+            $.ajax({
+                type : "get",   
+                url : '/data?id='+ sid +'&pr=' + pr, 
+                // dataType : "jsonp",//数据类型为jsonp 
+                success : function(data){  
+                    console.log(data);
+                    // if(data) {
+                    //     var strli = '';
+                    //     strli +='<div>满额：'+ data.quan.title +'</div>';
+                    //     _this.siblings('div').html(strli);
+                    // }
+                },  
+                error:function(){  
+                
+                }  
+            })
+        })
+    });
+
+    </script>
+</body>
+
+</html>
